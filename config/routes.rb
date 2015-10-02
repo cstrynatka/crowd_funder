@@ -1,5 +1,51 @@
 Rails.application.routes.draw do
 
+  get 'users/index'
+
+  get 'users/new'
+
+  get 'users/create'
+
+  get 'users/show'
+
+  get 'users/destroy'
+
+  get 'user/index'
+
+  get 'user/new'
+
+  get 'user/create'
+
+  get 'user/show'
+
+  resources :projects do
+    resources :breakpoints, on: :collection
+    resources :comments
+  end
+
+  resources :pledges, :except => [:index]
+  resources :users
+  resources :sessions, :only => [:new, :create, :destroy]
+  root 'projects#index'
+
+  get 'tagged' => 'projects#tagged', :as => 'tagged'
+
+  get 'project/new'
+
+  get 'project/create'
+
+  get 'project/update'
+
+  get 'project/destroy'
+
+  get 'project/show'
+
+  get 'project/index'
+
+  get 'project/index'
+
+  get 'project/show'
+
   get 'project/new'
 
   get 'project/create'
