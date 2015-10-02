@@ -1,5 +1,11 @@
 class UsersController < ApplicationController
 
+	def update
+		@user = User.find(params[:id])
+		if @user.update_attributes(user_params)
+			redirect_to user_path
+		end
+	end
 
   def index
   	@users = User.all
@@ -15,9 +21,10 @@ class UsersController < ApplicationController
   def create
   	@user = User.new(user_params)
   	if @user.save
-  		session[:user_id] = @user.user_id
-  		redirect_to session[:return:to], :notice => "Registration successful!"
-  		session[:return_to] = nil
+  		redirect_to projects_url, :notice => "Signed up"
+  	# 	session[:user_id] = @user.user_id
+  	# 	redirect_to session[:return:to], :notice => "Registration successful!"
+  	# 	session[:return_to] = nil
   	else
   		render :new
   	end
