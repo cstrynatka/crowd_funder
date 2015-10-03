@@ -3,10 +3,9 @@ Rails.application.routes.draw do
   root 'projects#index'
 
   resources :projects, only: [:index, :new, :show, :create]
-    resources :pledges
-    resources :rewards
-    resources :comments
-  # end
+  resources :pledges
+  resources :rewards
+  resources :comments
 
   resources :categories, only: [:index, :show]
 
@@ -14,10 +13,10 @@ Rails.application.routes.draw do
 
   resources :user_sessions, only: [:new, :create, :destroy]
 
-  post '/users/:id(.:format)' => 'users#update'
+  # post '/users/:id(.:format)' => 'users#update'
 
   get 'login' => 'user_sessions#new', :as => :login
-  post 'logout' => 'user_sessions#destroy', :as => :logout
+  get 'logout' => 'user_sessions#destroy', :as => :logout
 
   # gem 'tags/:tag', to: 'projects#index', as: :tag
 

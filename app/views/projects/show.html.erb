@@ -1,5 +1,95 @@
-<h1><%= @project.title %></h1>
+<h1>Project <%= @project.title %></h1>
 
-<div class="actions">
-	<%= link_to "Support this project", new_project_pledge_path(@project) %>
+<h3>Category:
+	<%= @project.category.name %>
+</h3>
+
+<h3>Owner:
+	<%= link_to @project.user.first_name, users_url(@project.user.id) %>
+</h3>
+
+<h3>Description:
+	<%= @project.description %>
+		<p><strong>Tags:
+			<%= raw @project.tag_list.map { |t| link_to t, tag_path(t)}.join(',') %>
+		</strong></p>
+</h3>
+
+<h2>Funding Goal:
+	<%= number_to_currency @project.funding_goal %>
+</h2>
+
+<p>Start Date:
+	<%= @project.start_date.to_date.strftime("%B %e, %Y") %><br>
+	End Date: 
+	<%= @project.end_date.to_date.strftime("%B %e, %Y") %>
+</p>
+
+<p>Time Left to Reach the Goal:
+	<%= @project.days_left_on_project %>
+</p>
+
+<h2>Total Funding Pledged So Far:
+	<%= number_to_currency @project.total_funding %>
+</h2>
+
+<div id="rewards">
+	
+	<h3>Rewards For
+		<%= @project.name %>
+	</h3>
+
+	<p>
+		<%= render @project.rewards %>
+	</p>
 </div>
+
+<%= link_to 'Back', projects_path %>
+
+<% if current_user == @project.user %>
+	<%= link_to "Delete", @project, method: :delete, data: {confirm: "Are you sure you wanna do that, bruh?"} %>
+<% end %>
+
+<h3>Comments</h3>
+
+<div id="comment-list">
+	<%= render :partial => "comments" %>
+</div>
+
+<% if current_user %>
+
+<h4>New Comment:</h4>
+
+	<%= form_for [@project, @comment], :remote => true do |f| %>
+		<% if @comment.errors.any? %>
+			<div id="error_explanation">
+				<h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+
+				<ul>
+				<% @comment.errors_full_messages.each do |msg| %>
+					<li><%= msg</li>
+				<% end %>
+				</ul>
+			</div>
+		<% end %>
+
+		<div class="field">
+			<%= f.label :comment %>
+			<%= f.text_area :comment %>
+		</div>
+
+		<div class="actions">
+			<%= f.submit %>
+		</div>
+	<% end %>
+
+	<% else %>
+		<p>Please
+			<%= link_to "log in", new_user_session_path %>
+			to add a comment
+		</p>
+	<% end %>
+
+<!-- <div class="actions">
+	<%= link_to "Support this project", new_project_pledge_path(@project) %>
+</div> -->

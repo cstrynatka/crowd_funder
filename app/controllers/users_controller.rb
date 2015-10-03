@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 
+
+
 	def update
 		@user = User.find(params[:id])
 		if @user.update_attributes(user_params)
@@ -24,7 +26,7 @@ class UsersController < ApplicationController
   		flash[:notice] = "User created!"
   		redirect_to root_path
   	else
-  		flash.now[:alert] = "Sorry, bruh. Try again."
+  		flash.now[:alert] = "Sorry, boob. Try again."
   		render 'new'
   	end
   		# redirect_to projects_url, notice: "Signed up"
@@ -35,6 +37,8 @@ class UsersController < ApplicationController
 
 
   def show
+    @user = current_user
+    render '/users/_form.html.erb'
   	@user = User.find(params[:id])
   end
 

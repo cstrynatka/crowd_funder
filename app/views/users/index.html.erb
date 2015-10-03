@@ -1,0 +1,23 @@
+<h1>Welcome, bra!</h1>
+
+<h3>Projects</h3>
+
+<% user.owned_projects.each do |project| %>
+	<div>
+		<%= link_to project.name, "/projects/#{project.id}" %>
+	</div>
+<% end %>
+
+<h3>Pledged Projects</h3>
+
+<% user.backed_projects.each do |project| %> 
+	<div>
+		<%= link_to project.name, "/projects/#{project.id}" %> Owner: <%= project.user.first_name %>
+	</div>
+<% end %>
+
+<div>
+	<p>Total pledges: <%= number_to_currency current_user.total_pledges %></p>
+</div>
+
+<%= link_to "Edit profile", edit_user_path(user) %>
