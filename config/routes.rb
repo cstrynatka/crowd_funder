@@ -1,82 +1,72 @@
 Rails.application.routes.draw do
 
-  get 'sessions/new'
+  root 'projects#index'
 
-  get 'sessions/create'
+  resources :projects, only: [:index, :new, :show, :create]
+    resources :pledges
+    resources :rewards
+    resources :comments
+  # end
 
-  get 'sessions/destroy'
+  resources :categories, only: [:index, :show]
 
-  get 'users/update'
+  resources :users, except: [:destroy]
 
-  get 'users/index'
+  resources :user_sessions, only: [:new, :create, :destroy]
 
-  get 'users/new'
+  post '/users/:id(.:format)' => 'users#update'
 
-  get 'users/create'
+  get 'login' => 'user_sessions#new', :as => :login
+  post 'logout' => 'user_sessions#destroy', :as => :logout
 
-  get 'users/show'
+  # gem 'tags/:tag', to: 'projects#index', as: :tag
 
-  get 'users/destroy'
+  # get 'sessions/new'
 
-  get 'user/index'
+  # get 'sessions/create'
 
-  get 'user/new'
+  # get 'sessions/destroy'
 
-  get 'user/create'
+  # get 'users/update'
 
-  get 'user/show'
+  # get 'users/index'
 
-  resources :projects do
+  # get 'users/new'
+
+  # get 'users/create'
+
+  # get 'users/show'
+
+  # get 'users/destroy'
+
+    resources :projects do
     resources :breakpoints, on: :collection
     resources :comments
   end
 
-  resources :pledges, :except => [:index]
+  resources :pledges, except: [:index]
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
-  root 'projects#index'
 
   get 'tagged' => 'projects#tagged', :as => 'tagged'
 
-  get 'project/new'
+  # get 'project/new'
 
-  get 'project/create'
+  # get 'project/create'
 
-  get 'project/update'
+  # get 'project/update'
 
-  get 'project/destroy'
+  # get 'project/destroy'
 
-  get 'project/show'
+  # get 'project/show'
 
-  get 'project/index'
+  # get 'project/index'
 
-  get 'project/index'
+  # get 'project/edit'
 
-  get 'project/show'
+  # get 'pledges/index'
 
-  get 'project/new'
-
-  get 'project/create'
-
-  get 'project/edit'
-
-  get 'project/destroy'
-
-  resources :projects
-
-  get 'projects/index'
-
-  get 'projects/new'
-
-  get 'projects/show'
-
-  get 'projects/create'
-
-  get 'pledges/show'
-
-  get 'pledges/index'
-
-  get 'pledges/create'
+  # get 'pledges/create'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
