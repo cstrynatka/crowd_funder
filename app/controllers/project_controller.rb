@@ -1,5 +1,7 @@
 class ProjectController < ApplicationController
 
+	before_filter :require_login, only: [:new, :create]
+	
   def new
   	@project = Project.new
   end
@@ -7,9 +9,9 @@ class ProjectController < ApplicationController
 
   def create
   	@project = Project.new(project_params)
-  	@project.owner = current_user
+  	@project.owner_id = current_user.id
   	if @project.save
-  		redirect_to new_project_breakpoint_path(@project)
+  		redirect_to projects_path
   	else
   		render :new
   	end
@@ -43,7 +45,7 @@ class ProjectController < ApplicationController
   end
 
   def index
-  	@projects = Project.all.newest_first
+  	@projects = Project.all
   end
 
   private

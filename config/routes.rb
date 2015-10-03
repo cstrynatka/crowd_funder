@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  get 'sessions/new'
+
+  get 'sessions/create'
+
+  get 'sessions/destroy'
+
   get 'users/update'
 
   get 'users/index'
@@ -27,7 +33,7 @@ Rails.application.routes.draw do
 
   resources :pledges, :except => [:index]
   resources :users
-  resources :sessions, :only => [:new, :create, :destroy]
+  resources :sessions, only: [:new, :create, :destroy]
   root 'projects#index'
 
   get 'tagged' => 'projects#tagged', :as => 'tagged'

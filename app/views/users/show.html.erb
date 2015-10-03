@@ -1,17 +1,27 @@
 <h1>User Profile</h1>
 
-<% if current_user && (current_user.id == @user.id) %>
-	<div class="main-content">
-		<% if current_user.projects.length > 0 %>
-			<h2>List of current projects</h2>
+<h2>About</h2>
 
-			<% current_user.projects.each do |p| %>
-			<p>Project Name: <%= link_to p.name, project_path(p) %></p>
-			<p>Project Goal: <%= display_money(p.goal_in_cents) %></p>
-			<p>Amount Raised: <%= display_money(total_pledges(p) %></p>
-		<% end %>
+<%= @user.profile %>
 
-	<% else %>
-		No projects yet, bruh. Wanna start one? <%= link_to "New project, bruh", new_project_path %>
-	<% end %>
-	</div>
+	<%= form_for(current_user) do |f| %>
+	<%= f.text_area :profile %>
+
+	<%= f.submit %>
+
+<% end %>
+
+<p>Projects</p>
+
+<% @user.projects.each do |y| %>
+<li><%= y.name %></li>
+<% end %>
+
+<p>Latest</p>
+
+<% a = Project.find(x.project_id) %>
+<li><%= a.name %> - <%= x.amount %>.00</li>
+
+<% end %>
+
+<p><%= link_to "Back to home", projects_url %></p>
